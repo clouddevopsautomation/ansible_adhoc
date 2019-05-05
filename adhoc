@@ -1,0 +1,96 @@
+Ansible Ad Hoc Commands Cheat Sheet
+
+ansible ad-hoc commands are used to run the tasks at onetime. if you want to run multiple times then you have to use ansible playbooks or roles.
+
+
+
+Ansible Ad Hoc Commands syntax
+	
+
+ansible Hostgroup -m module -a arguments
+ 
+ 
+
+Ansible ad hoc command with inventory
+
+ansible -i /project/ansible/myhosts -m ping all
+
+Here by using -i, we can mention inventory file path in ansible adhoc commands.
+Ansible ad hoc ping
+
+ansible  all – m ping
+
+It will ping all the hosts that you defined in hosts or inventory file.
+Ansible ad hoc command to install any package
+
+If you are hosts machines are centos/rhel then you can use yum module to install any packages.
+
+ansible all -m yum -a “name=httpd state=present”
+
+Here it will install httpd in all host systems.
+
+if your hosts systems are ubuntu/debian you can use apt module
+
+ansible all -m apt -a “name=httpd state=present”
+
+It will install httpd in all host systems.
+Ansible adhoc commands to Manage Services
+
+To Ensure a service is started on all servers:
+
+ansible web -m service -a “name=httpd state=started”
+
+It will start httpd in all hosts that you defined in web group.
+
+To restart the service:
+
+ansible web -m service -a “name=httpd state=restarted”
+
+To stop the service:
+
+ansible web -m service -a “name=httpd state=stopped”
+Ansible ad hoc command to create folder
+
+ansible all -m file -a “path=/project/devops state=directory”
+
+Here devops directory will created in hosts systems.
+Ansible ad hoc commands copy
+
+to copy a file to all hosts servers you can use this copy module
+
+ansible web -m copy -a “src=/etc/hosts dest=/tmp/hosts” 
+
+Here web is the hosts group and it will copy the file called hosts from ansible control machine to all servers.
+
+To use copy module we have to mention two arguments one is source path and another one is destination path.
+Ansible ad hoc commands command module
+
+To run any linux commands on host servers we can use this module.
+
+ansible web -m command -a “free -m”
+
+It will show you free memory in all host servers.
+Ansible ad hoc command to create a group
+
+ansible web -m group -a “name=devops state=present”
+
+It will create a group called devops in all your hosts that you defined in web.
+Ansible ad hoc command to create a file
+
+ansible all -m file -a “path=/project/devops/abcd.txt  state=touch”
+
+Here it will create an empty file called abcd.txt in all remote servers.
+
+To create a files and directories in ansible we use file module.
+Ansible ad hoc command to create user
+
+ansible all -m user -a “name=ansible group=devops password=ansible123”
+
+It will create ansible user in all your host amchines and it will add this user to devops group and we can set password for this user with password argument.
+Gathering Facts
+
+To gather all facts of all remote servers you can use setup module.
+
+ansible all -m setup
+
+We can use this facts depends on our requirements, in some cases we use this facts to execute some conditional tasks.
